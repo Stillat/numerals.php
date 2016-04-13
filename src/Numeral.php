@@ -193,7 +193,7 @@ class Numeral
 
             // Handle the case where there are more decimal places
             // than are desired.
-            if ($currentDecimalLength > $decimalPlaces) {
+            if ($currentDecimalLength >= $decimalPlaces) {
                 $roundedValue = round($number, $decimalPlaces);
                 return $this->addPaddingToNumber($roundedValue, $decimalPlaces, $optionalDigits);
             }
