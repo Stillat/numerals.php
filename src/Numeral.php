@@ -507,7 +507,7 @@ class Numeral
         $originalPHPFloatPrecision = ini_get('precision');
         $numberOfNumbers = strlen(preg_replace('/[^0-9]/', "", $number)) + 1;
         $floatPrecisionWasModified = false;
-        
+
         if ($numberOfNumbers > $originalPHPFloatPrecision) {
             ini_set('precision', $numberOfNumbers);
             $floatPrecisionWasModified = true;
@@ -870,18 +870,18 @@ class Numeral
     {
         $output = null;
 
-        if ($this->stringContains($format, '$')) { // Currency
+        if ($this->stringContains($format, '$')) {
+            // Format the number as currency.
             $output = $this->formatCurrency($number, $format);
+        } elseif ($this->stringContains($format, '%')) {
+            // Format the number as a percentage.
+            $output = $this->formatPercentage($number, $format);
+        }  elseif ($this->stringContains($format, ':')) {
+            // Format the number as time.
+            $output = $this->formatTime($number);
         } else {
-            if ($this->stringContains($format, '%')) { // Percentage
-                $output = $this->formatPercentage($number, $format);
-            } else {
-                if ($this->stringContains($format, ':')) { // Time
-                    $output = $this->formatTime($number);
-                } else { // Number or bytes
-                    $output = $this->formatNumber($number, $format);
-                }
-            }
+            // Format as number or bytes.
+            $output = $this->formatNumber($number, $format);
         }
 
         return $output;
