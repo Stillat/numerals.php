@@ -786,6 +786,11 @@ class Numeral
             if ($this->stringContains($originalFormat, 'B')) {
                 $bytes = mb_strtoupper($bytes);
             }
+
+            if ($bytes === '' || $bytes === ' ') {
+                $bytes = $bytes + 'B';
+            }
+
         }
 
         // decimal bytes
