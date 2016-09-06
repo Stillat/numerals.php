@@ -1,4 +1,5 @@
-# Numeral.php
+![numeral.php](https://cloud.githubusercontent.com/assets/5232890/18261204/ba157f90-73ba-11e6-96d5-037841cee49c.png)
+
 [![Build Status](https://travis-ci.org/Stillat/numeral.php.svg?branch=master)](https://travis-ci.org/Stillat/numeral.php)
 [![Latest Stable Version](https://poser.pugx.org/stillat/numeral.php/v/stable)](https://packagist.org/packages/stillat/numeral.php) [![Total Downloads](https://poser.pugx.org/stillat/numeral.php/downloads)](https://packagist.org/packages/stillat/numeral.php) [![Latest Unstable Version](https://poser.pugx.org/stillat/numeral.php/v/unstable)](https://packagist.org/packages/stillat/numeral.php) [![License](https://poser.pugx.org/stillat/numeral.php/license)](https://packagist.org/packages/stillat/numeral.php)
 
