@@ -12,6 +12,11 @@ class Numeral
 
     use JsonDecodeTrait;
 
+    /**
+     * The default zero format.
+     *
+     * @var null|string
+     */
     protected $zeroFormat = null;
 
     protected $suffixes = ['KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -502,6 +507,7 @@ class Numeral
         $originalPHPFloatPrecision = ini_get('precision');
         $numberOfNumbers = strlen(preg_replace('/[^0-9]/', "", $number)) + 1;
         $floatPrecisionWasModified = false;
+        
         if ($numberOfNumbers > $originalPHPFloatPrecision) {
             ini_set('precision', $numberOfNumbers);
             $floatPrecisionWasModified = true;
