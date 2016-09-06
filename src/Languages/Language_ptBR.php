@@ -23,7 +23,7 @@ class Language_ptBR extends AbstractLanguage
 
     protected $currency = [
         'symbol' => 'R$',
-        'position' => 'postfix',
+        'position' => 'prefix',
         'spaceSeparated' => true
     ];
 
