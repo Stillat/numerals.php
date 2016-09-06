@@ -783,14 +783,13 @@ class Numeral
                 }
             }
 
+            if ($number == 0 && $bytes === '' || $bytes === ' ') {
+                $bytes = $bytes.'b';
+            }
+
             if ($this->stringContains($originalFormat, 'B')) {
                 $bytes = mb_strtoupper($bytes);
             }
-
-            if ($bytes === '' || $bytes === ' ') {
-                $bytes = $bytes + 'B';
-            }
-
         }
 
         // decimal bytes

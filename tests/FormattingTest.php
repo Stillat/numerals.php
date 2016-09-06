@@ -155,6 +155,10 @@ class FormattingTest extends PHPUnit_Framework_TestCase
     ];
 
     protected $bytesTest = [
+        [0, '0 b', '0 b'],
+        [0, '0 B', '0 B'],
+        [0, '0B', '0B'],
+        [0, '0b', '0b'],
         [100, '0b', '100B'],
         [2048, '0 b', '2 KiB'],
         [7884486213, '0.0b', '7.3GiB'],
