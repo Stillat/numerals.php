@@ -177,6 +177,78 @@ class Numeral
     }
 
     /**
+     * Implementation of toFixed for numbers with exponents.
+     * 
+     * This function may return negative representations of zero values e.g. "-0.0"
+     *
+     * @param mixed $number
+     * @param int   $decimalPlaces
+     *
+     * @return string
+     */
+    protected function toFixedLargeSmall($number, $decimalPlaces)
+    {
+        $parts = explode('e', mb_strtolower((string) $number));
+
+        $mantissa = $parts[0];
+        $exponent = $parts[1];
+
+        $beforeDecimal = '';
+        $afterDecimal  = '';
+
+        $prefix = '';
+        $endString = '';
+        $zerosString = '';
+        $string = '';
+
+        $mantissaParts = explode('.', $mantissa);
+
+        if (count($mantissaParts) == 0) {
+            $beforeDecimal = $mantissa;
+        } elseif (count($mantissaParts) == 1) {
+            $beforeDecimal = $mantissaParts[0];
+        } elseif (count($mantissaParts) == 2) {
+            $beforeDecimal = $mantissaParts[0];
+            $afterDecimal  = $mantissaParts[1];
+        }
+
+        if (+$exponent > 0) {
+            // Exponent is positive - add zeros after the numbers.
+            $string = $beforeDecimal.$afterDecimal.str_repeat('0', $exponent - mb_strlen((string) $afterDecimal));
+        } else {
+            // Exponent is negative.
+            
+            if (+$beforeDecimal < 0) {
+                $prefix = '-0';
+            } else {
+                $prefix = '0';
+            }
+
+            // Tack on the decimal point if needed.
+            if ($decimalPlaces > 0) {
+                $prefix .= '.';
+            }
+
+            $zerosString = str_repeat('0', ($exponent * -1) - 1);
+
+            $endString = mb_substr(
+                $zerosString.abs($beforeDecimal).$afterDecimal,
+                0,
+                $decimalPlaces
+            );
+
+            $string = $prefix.$endString;
+        }
+
+
+        if (+$exponent > 0 && $decimalPlaces > 0) {
+            $string .= '.'.str_repeat('0', $decimalPlaces);
+        }
+
+        return $string;
+    }
+
+    /**
      * Converts a number to fixed notation, adding padding where necessary.
      *
      * @param     $number
@@ -187,8 +259,21 @@ class Numeral
      */
     protected function toFixed($number, $decimalPlaces, $optionalDigits = 0)
     {
+        // Cast the number to a string.
+        $stringNumber = mb_strtolower((string) $number);
+
+        if ($this->stringContains($stringNumber, 'e')) {
+            $number = $this->toFixedLargeSmall($number, $decimalPlaces);
+
+            if ($this->stringStartsWith((string) $number, '-') && +$number >= 0) {
+                $number = mb_substr($number, 1);
+            }
+
+            return $this->addPaddingToNumber($number, $decimalPlaces, $optionalDigits);
+        }
 
         if ($this->stringContains($number, '.')) {
+
             // The number contains a decimal place, so we need to do some extra
             // processing.
             $decimalPosition = $this->coalesce(strpos($number, '.'), -1);
@@ -198,16 +283,22 @@ class Numeral
 
             // Handle the case where there are more decimal places
             // than are desired.
-            if ($currentDecimalLength >= $decimalPlaces) {
+            if ($currentDecimalLength >= $decimalPlaces) {                
                 $roundedValue = round($number, $decimalPlaces);
+                
+                if ($this->stringStartsWith((string) $roundedValue, '-') && +$roundedValue >= 0) {
+                    $roundedValue = mb_substr($roundedValue, 1);
+                }
+
                 return $this->addPaddingToNumber($roundedValue, $decimalPlaces, $optionalDigits);
             }
+
+
 
             return $this->addPaddingToNumber($number, $decimalPlaces, $optionalDigits);
 
         } else {
             $padding = '';
-
             if ($decimalPlaces > 0) {
                 $padding = '.' . str_repeat('0', $decimalPlaces - $optionalDigits);
             }
