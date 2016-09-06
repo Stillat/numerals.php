@@ -331,4 +331,22 @@ class FormattingTest extends PHPUnit_Framework_TestCase
         $this->runTestsOnArray($this->verbatimTests, 'format');
     }
 
+    public function testVerbatimTextWithSpecialCharacters()
+    {
+        $tests = [
+            [100, '$0', json_decode('"\u00a3100"')],
+            [100, '{$}0', '$100'],
+            [100, '{foo }0o', 'foo 100th'],
+            [100, '0o{ foo}', '100th foo'],
+            [100, '{$  }0', '$  100'],
+            [100, '0{%}', '100%'],
+            [100, '0{:}', '100:'],
+            [100, '0{b}','100b']
+        ];
+
+        $this->languageManager->setCulture('en-GB');
+
+        $this->runTestsOnArray($tests, 'format');
+    }
+
 }

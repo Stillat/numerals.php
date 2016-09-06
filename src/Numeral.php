@@ -870,13 +870,15 @@ class Numeral
     {
         $output = null;
 
-        if ($this->stringContains($format, '$')) {
+        $escapedFormat = preg_replace('/\{[^\{\}]*\}/', '', $format);
+
+        if ($this->stringContains($escapedFormat, '$')) {
             // Format the number as currency.
             $output = $this->formatCurrency($number, $format);
-        } elseif ($this->stringContains($format, '%')) {
+        } elseif ($this->stringContains($escapedFormat, '%')) {
             // Format the number as a percentage.
             $output = $this->formatPercentage($number, $format);
-        }  elseif ($this->stringContains($format, ':')) {
+        }  elseif ($this->stringContains($escapedFormat, ':')) {
             // Format the number as time.
             $output = $this->formatTime($number);
         } else {
