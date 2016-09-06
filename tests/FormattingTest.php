@@ -188,6 +188,11 @@ class FormattingTest extends PHPUnit_Framework_TestCase
         [0.43, '(0.00[0]%)', '43.00%']
     ];
 
+    protected $verbatimTests = [
+        [100, '{foo }0o', 'foo 100th'],
+        [100, '0o{ foo}', '100th foo'],
+    ];
+
     /**
      * The LanguageManager instance.
      *
@@ -318,6 +323,12 @@ class FormattingTest extends PHPUnit_Framework_TestCase
 
         $this->runTestsOnArray($tests, 'formatNumber');
         $this->runTestsOnArray($tests, 'format');
+    }
+
+    public function testVerbatimText()
+    {
+        $this->runTestsOnArray($this->verbatimTests, 'formatNumber');
+        $this->runTestsOnArray($this->verbatimTests, 'format');
     }
 
 }
