@@ -15,6 +15,14 @@ $formatter->format(1000.23, '+0,0');
 $formatter->format(233434, '0a.00');
 ```
 
+## Installation
+
+This package can be installed using Composer by issuing this command in the root of your project:
+
+```
+composer require stillat/numeral.php
+```
+
 ## Getting Started
 
 Working with Numeral.php is fairly straightforward. There are two things you have to do when first getting started. First, we need to create a language manager instance, and then a `Numeral` (this class does all the formatting and unformatting) instance. The language manager handles loading culture information that the formatter will use.
