@@ -284,7 +284,7 @@ class Numeral
             // Handle the case where there are more decimal places
             // than are desired.
             if ($currentDecimalLength >= $decimalPlaces) {                
-                $roundedValue = round($number, $decimalPlaces);
+                $roundedValue = number_format($number, $decimalPlaces, '.', '');
                 
                 if ($this->stringStartsWith((string) $roundedValue, '-') && +$roundedValue >= 0) {
                     $roundedValue = mb_substr($roundedValue, 1);
