@@ -717,7 +717,7 @@ class Numeral
 
 
             $totalLength = floor(log($abs) / log(10)) + 1;
-            $minimumPrecision = $totalLength % 3;
+            $minimumPrecision = (int)$totalLength % 3;
             $minimumPrecision = ($minimumPrecision === 0) ? 3 : $minimumPrecision;
 
             if ($intPrecision > 0 && $abs !== 0) {
